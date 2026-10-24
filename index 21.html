@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unit 3 · Lesson 6, part 2 · Railway map project</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#4A2A6D;--pink:#FF7EB6;--lav:#B9A2FF;--gold:#FFC845;--mint:#6FE3C1;--cream:#FFF8FC}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:'Baloo 2',system-ui,sans-serif;color:var(--ink);padding:14px;background:linear-gradient(180deg,#FFC9E6 0%,#E6D6FF 50%,#FFF1C9 100%) fixed;overflow-x:hidden}
+.castle{position:fixed;left:0;right:0;bottom:0;height:170px;z-index:0;opacity:.2;pointer-events:none}
+.sp{position:fixed;width:22px;height:22px;z-index:0;animation:tw 2.6s ease-in-out infinite;pointer-events:none}
+@keyframes tw{0%,100%{transform:scale(.4) rotate(0);opacity:.3}50%{transform:scale(1.1) rotate(45deg);opacity:1}}
+.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+button{font-family:inherit;cursor:pointer}button:focus-visible{outline:4px solid var(--ink);outline-offset:2px}
+.top{background:var(--cream);border:4px solid var(--gold);border-radius:28px;padding:12px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;box-shadow:0 6px 0 #4A2A6D33,inset 0 0 0 3px var(--pink)}
+.top .tt{display:flex;align-items:center;gap:12px}
+.top small{color:#D1388A;font-weight:800;letter-spacing:2px}.top h1{margin:0;font-family:'Pacifico','Baloo 2',cursive;font-weight:400;font-size:clamp(24px,4vw,36px)}
+.badge{background:var(--pink);color:#fff;border:3px solid var(--ink);border-radius:999px;padding:2px 16px;font-weight:800;font-size:20px;display:inline-flex;gap:8px;align-items:center}
+.fl{position:relative;height:56px;margin:0 6px}
+.fl .trk{position:absolute;left:10px;right:10px;top:34px;border-top:5px dotted var(--ink);opacity:.45}
+.fl .st{position:absolute;top:26px;width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid var(--ink);margin-left:-9px}
+.fl .st.on{background:var(--pink)}
+.fl .pl{position:absolute;top:0;transition:left .8s cubic-bezier(.5,1.5,.5,1);margin-left:-32px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.nav span{font-weight:800}
+.nav button{border:3px solid var(--ink);background:var(--cream);color:var(--ink);border-radius:999px;padding:5px 14px;font-size:16px;font-weight:700;box-shadow:0 4px 0 var(--ink);transition:transform .15s}
+.nav button:hover{transform:translateY(-2px)}.nav button.on{background:var(--pink);color:#fff;transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.card{background:var(--cream);border:4px solid var(--gold);border-radius:30px;padding:clamp(16px,3vw,30px);display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 0 #4A2A6D33,inset 0 0 0 3px var(--lav);animation:pop .45s;position:relative}
+.card h2{margin:0;font-size:clamp(20px,3vw,28px)}
+.meta{display:flex;justify-content:space-between;font-weight:800;font-size:18px;flex-wrap:wrap;gap:6px;padding-bottom:10px;border-bottom:4px dotted var(--lav)}
+.q{font-size:clamp(22px,3.4vw,32px);font-weight:800;line-height:1.3}.q b{color:#D1388A;background:#FFE0F0;border-radius:10px;padding:0 6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.o{display:flex;align-items:center;justify-content:center;gap:12px;border:3px solid var(--ink);background:#fff;color:var(--ink);border-radius:999px;padding:14px 20px;font-size:clamp(18px,2.6vw,24px);font-weight:700;box-shadow:0 5px 0 var(--ink);transition:transform .12s}
+.o:hover:not(:disabled){transform:translateY(-3px);background:#FFF0F8}.o:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.o.ok{background:#8CF0CF;animation:pop .4s}.o.bad{background:#FFB3C9;animation:shake .4s}.o:disabled{cursor:default}
+.fb{font-size:22px;font-weight:700;min-height:34px}
+.stamp{display:inline-block;border:4px solid #1FA971;color:#1FA971;border-radius:999px;padding:0 14px;transform:rotate(-5deg);animation:stampin .4s;margin-right:8px;background:#fff}.stamp.no{border-color:#D1388A;color:#D1388A}
+.go{align-self:flex-end;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:12px 32px;font-size:21px;font-weight:800;box-shadow:0 5px 0 #2a1440}
+.go.alt{background:var(--pink);box-shadow:0 5px 0 #c24f86}.go[disabled]{opacity:.35}.go:active{transform:translateY(3px)}
+.row{display:flex;gap:12px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.box{background:#fff;border:3px dotted var(--ink);border-radius:18px;padding:12px 20px;font-size:clamp(18px,2.4vw,22px);line-height:1.8}.box b{color:#D1388A}
+.learn{background:#EFE6FF;border:3px solid var(--lav);border-radius:18px;padding:10px 18px;font-size:19px}
+.cz{display:grid;grid-template-columns:40px repeat(3,1fr);gap:8px;align-items:center}.cz .o{padding:6px 12px;justify-content:flex-start;border-color:transparent;box-shadow:none;background:transparent;border-radius:16px;font-size:clamp(17px,2.2vw,22px)}.cz .o.sel{border-color:var(--ink);background:#fff}
+.cz .o.ok{background:#8CF0CF}.cz .o.bad{background:#FFB3C9}
+.dot{width:26px;height:16px;border:3px solid var(--ink);border-radius:50%;background:#fff;flex:none}.sel .dot{background:var(--ink)}
+.scr{background:#fff;border:3px dotted var(--ink);border-radius:16px;padding:10px 16px;font-size:clamp(16px,2.1vw,19px);line-height:1.6;max-height:240px;overflow:auto}
+.dl{display:flex;flex-direction:column;gap:8px;max-height:430px;overflow:auto;padding-right:6px}
+.s{display:block;width:100%;text-align:left;border:3px solid var(--ink);background:#fff;color:var(--ink);border-radius:20px;padding:10px 16px;font-size:clamp(17px,2.2vw,21px);line-height:1.5}.s.sel{background:#FFE9A8}
+.mid{align-self:center;background:var(--pink);color:#fff;border:4px solid var(--ink);border-radius:50%;width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;text-align:center}
+.bub{border:3px solid var(--ink);border-radius:999px;padding:12px 22px;font-size:clamp(18px,2.6vw,24px);font-weight:800;color:var(--ink);box-shadow:0 4px 0 var(--ink)}.bub.seen{outline:5px solid var(--mint)}
+.credit{text-align:right;font-size:15px;font-weight:700}
+.big-stamp{align-self:center;font-size:clamp(34px,6vw,56px);font-weight:800;color:#1FA971;border:6px solid #1FA971;border-radius:999px;padding:0 26px;transform:rotate(-4deg);animation:stampin .5s}
+@keyframes pop{0%{transform:scale(.96);opacity:.4}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes stampin{0%{transform:scale(2.2) rotate(-12deg);opacity:0}100%{transform:scale(1) rotate(-5deg);opacity:1}}
+input,textarea{font-family:inherit;font-size:clamp(17px,2.2vw,21px);color:var(--ink);border:3px solid var(--ink);border-radius:16px;padding:8px 14px;background:#fff;width:100%}.fm{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.fm label{font-weight:800;font-size:17px;display:flex;flex-direction:column;gap:4px}.vb{height:26px;border-radius:999px;background:var(--pink);border:3px solid var(--ink);color:#fff;font-weight:800;padding:0 12px;min-width:36px;display:flex;align-items:center}.o.pk{background:#FFE9A8}</style></head><body>
+<svg class="sp" style="left:32%;top:42%;animation-delay:0.3s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:52%;top:65%;animation-delay:0.4s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:10%;top:6%;animation-delay:1.0s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:39%;top:11%;animation-delay:0.6s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:70%;top:50%;animation-delay:0.7s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:24%;top:17%;animation-delay:0.7s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:5%;top:86%;animation-delay:2.0s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:36%;top:28%;animation-delay:0.4s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:39%;top:84%;animation-delay:2.2s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:49%;top:15%;animation-delay:2.1s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:45%;top:89%;animation-delay:1.0s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="sp" style="left:33%;top:26%;animation-delay:0.6s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFC845"/></svg><svg class="castle" viewBox="0 0 800 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true" fill="#4A2A6D"><rect x="40" y="90" width="60" height="80"/><path d="M30 90l40-60 40 60z"/><rect x="150" y="110" width="120" height="60"/><rect x="180" y="60" width="60" height="110"/><path d="M170 60l40-50 40 50z"/><rect x="330" y="50" width="140" height="120"/><path d="M320 50l80-48 80 48z"/><rect x="380" y="110" width="40" height="60" fill="#FFF8FC"/><rect x="530" y="60" width="60" height="110"/><path d="M520 60l40-50 40 50z"/><rect x="620" y="110" width="120" height="60"/><rect x="700" y="80" width="60" height="90"/><path d="M690 80l40-56 40 56z"/></svg>
+<div class="wrap">
+<div class="top"><div class="tt"><svg width="54" height="42" viewBox="0 0 64 48" aria-hidden="true"><path d="M6 42L4 12l16 14L32 6l12 20 16-14-2 30z" fill="#FFC845" stroke="#4A2A6D" stroke-width="3" stroke-linejoin="round"/><circle cx="32" cy="6" r="4" fill="#FF7EB6" stroke="#4A2A6D" stroke-width="2"/><circle cx="4" cy="12" r="3.5" fill="#FF7EB6" stroke="#4A2A6D" stroke-width="2"/><circle cx="60" cy="12" r="3.5" fill="#FF7EB6" stroke="#4A2A6D" stroke-width="2"/></svg><div><small>THE ROYAL TRAIN · UNIT 3 · TRAVEL · LESSON 6, PART 2</small><h1>Royal Railway Map</h1></div></div><div style="text-align:right"><span class="badge"><svg width="24" height="21" viewBox="0 0 32 28" aria-hidden="true"><path d="M8 2h16l7 9-15 16L1 11z" fill="#8FD9FF" stroke="#4A2A6D" stroke-width="2.5" stroke-linejoin="round"/><path d="M1 11h30M12 2l-3 9 7 16 7-16-3-9" fill="none" stroke="#4A2A6D" stroke-width="1.5"/></svg><span id="stars"></span> Jewels</span><br><small style="letter-spacing:0">Royal journey: 25 minutes</small></div></div>
+<div class="fl"><div class="trk"></div><div id="stations"></div><span class="pl" id="pl"><svg width="70" height="46" viewBox="0 0 70 46" aria-hidden="true"><path d="M12 10l2-8h8l2 8" fill="#FFC845" stroke="#4A2A6D" stroke-width="2.5"/><rect x="4" y="10" width="46" height="24" rx="7" fill="#FF7EB6" stroke="#4A2A6D" stroke-width="3"/><rect x="11" y="15" width="10" height="10" rx="2" fill="#fff"/><rect x="26" y="15" width="10" height="10" rx="2" fill="#fff"/><rect x="50" y="16" width="14" height="18" rx="4" fill="#B9A2FF" stroke="#4A2A6D" stroke-width="3"/><circle cx="16" cy="37" r="6" fill="#FFC845" stroke="#4A2A6D" stroke-width="2.5"/><circle cx="38" cy="37" r="6" fill="#FFC845" stroke="#4A2A6D" stroke-width="2.5"/><circle cx="57" cy="37" r="5" fill="#FFC845" stroke="#4A2A6D" stroke-width="2.5"/></svg></span></div>
+<div class="nav" id="nav"></div>
+<div id="main"></div>
+<div class="credit">Created by T.Badria Alfalahi</div>
+</div>
+<script>
+const N=a=>a.map(t=>({t}));
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const TF=N(['True','False']);
+const RW=[['Glacier Express','Switzerland','Zermatt','St. Moritz','Europe'],['Trans-Siberian','Russia','Moscow','Vladivostok','Europe and Asia'],['Haramain High-Speed','Saudi Arabia','Makkah','Madinah','Asia'],['The Ghan','Australia','Adelaide','Darwin','Australia'],['California Zephyr','the USA','Chicago','San Francisco Bay','North America'],['The Blue Train','South Africa','Pretoria','Cape Town','Africa'],['Oslo to Bergen','Norway','Oslo','Bergen','Europe']];
+const RL=N(['Distance Detective','Route Finder','Sights Scout','Picture Artist']);
+const rl=(a,b,c)=>N([a,b,c]);
+const A=[
+{n:'1 · True or false cards',min:3,type:'mc',q:[
+{pr:'The Haramain train runs between Makkah and Madinah.',o:TF,a:0,ex:'It also stops at Jeddah.'},
+{pr:'The Trans-Siberian railway is shorter than 1,000 kilometres.',o:TF,a:1,ex:'It’s more than 9,000 kilometres long.'},
+{pr:'Lake Baikal is the deepest lake in the world.',o:TF,a:0,ex:'The Trans-Siberian train goes past it.'},
+{pr:'You can finish the Trans-Siberian journey in one day.',o:TF,a:1,ex:'You sleep on the train.'},
+{pr:'The Haramain trains are designed to run in temperatures of 50°C.',o:TF,a:0,ex:'They run well in hot summers.'}]},
+{n:'2 · Team roles',min:2,type:'mc',q:[
+{pr:'Who finds out how long the route is (in kilometres and hours)?',o:rl('Route Finder','Distance Detective','Picture Artist'),a:1},
+{pr:'Who finds out where the railway starts and finishes?',o:rl('Route Finder','Sights Scout','Distance Detective'),a:0},
+{pr:'Who finds out what you can do and see on the way?',o:rl('Picture Artist','Distance Detective','Sights Scout'),a:2},
+{pr:'Who prints or draws pictures of places you can see on the way?',o:rl('Sights Scout','Route Finder','Picture Artist'),a:2}]},
+{n:'3 · My railway map',min:7,type:'proj'},
+{n:'4 · Notes and kmh',min:3,type:'mc',q:[
+{pr:'What does <b>km</b> mean?',o:N(['kilometres','kilograms','kilolitres']),a:0},
+{pr:'What does <b>kmh</b> mean?',o:N(['kilometres an hour','kilometres a house','kilometres a hill']),a:0},
+{pr:'Which note about the route is correct?',o:N(['The route is 290 kmh long.','The route is 290 km long.','The route is 290 hours long.']),a:1},
+{pr:'Which note about the speed is correct?',o:N(['The train goes 300 km.','The train goes 300 hours.','The train goes 300 kmh.']),a:2},
+{pr:'Notes are usually ___.',o:N(['very long','short and clear','secret']),a:1}]},
+{n:'5 · Fact check',min:3,type:'mc',q:[
+{pr:'The Haramain line opened in ___.',o:N(['2009','2018','1999']),a:1},
+{pr:'How many places can camels cross the Haramain railway?',o:N(['12','50','300']),a:0},
+{pr:'How far is the Glacier Express journey?',o:N(['9,000 km','450 km','290 km']),a:2},
+{pr:'The Glacier Express goes through ___ tunnels.',o:N(['91','12','50']),a:0},
+{pr:'The Oberalp Pass is about ___ metres high.',o:N(['300','2,130','450']),a:1}]},
+{n:'6 · Class vote',min:2,type:'vote'},
+{n:'7 · Learning diary',min:2,type:'diary'},
+{n:'8 · Final task',min:3,type:'cloze'}];
+const CL=7;
+const DI=['The Haramain train can travel at 300 kilometres an hour.','The Trans-Siberian railway is the longest in the world.','Lake Baikal is the deepest lake in the world.','We write kmh for kilometres an hour.','A railway map shows the route and pictures.','I can work in a team to make a project.','The Glacier Express goes through 91 tunnels.','A famous railway is on every continent.'];
+const VT=[['Haramain High-Speed','#FF9CCB'],['Trans-Siberian','#B9A2FF'],['Glacier Express','#FFC845']];
+const VR=['it is very fast','it is the longest','it has beautiful views','you can sleep on the train'];
+const VOTES=[0,0,0];
+const C={t:'In groups, you choose a {0} (1) and find out about a famous {1} (2). You find out how long the route is in {2} (3). You draw the route on a {3} (4) and display {4} (5) next to it.',o:[['continent','city','school'],['railway','restaurant','museum'],['kilometres','litres','degrees'],['map','pillow','ticket'],['pictures','pyjamas','suitcases']],a:[0,0,0,0,0]};
+C.o=[['city','continent','school'],['restaurant','museum','railway'],['kilometres','litres','degrees'],['pillow','map','ticket'],['pyjamas','pictures','suitcases']];C.a=[1,2,0,1,1];
+const nst=()=>({i:0,pk:null,sc:0,done:false,ans:{},chk:false,sel:null,km:'',hrs:'',see:'',made:false,vt:null,vr:null,di:{}});
+let S={step:0,st:A.map(nst)};
+let ac;function tone(f,d,ty){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();f.forEach((hz,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type=ty||'sine';o.frequency.value=hz;const t=ac.currentTime+i*d;g.gain.setValueAtTime(.18,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d)})}catch(e){}}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+const GOOD=()=>tone([523,659,784,1047],.1,'triangle'),BAD=()=>tone([220,160],.2,'sawtooth');
+function go(k){tone([523,659],.1);try{speechSynthesis.cancel()}catch(e){}S.step=k;render()}
+function pick(i){const s=S.st[S.step],q=A[S.step].q[s.i];if(s.pk!==null)return;s.pk=i;if(i===q.a){s.sc++;GOOD()}else BAD();render()}
+function nxt(){const s=S.st[S.step],a=A[S.step];if(s.pk===null)return;if(s.i+1<a.q.length){s.i++;s.pk=null}else{s.done=true;tone([523,659,784,1047],.14,'triangle')}render()}
+function retry(){S.st[S.step]=nst();tone([440,523],.1);render()}
+function rail(i){S.st[2].sel=i;S.st[2].made=false;S.st[2].sc=0;tone([660,880],.1);render()}
+function inp(k,v){S.st[2][k]=v}
+function make(){const s=S.st[2];s.made=true;s.sc=1;GOOD();render()}
+function note(){const s=S.st[2],r=RW[s.sel];return 'The '+r[0].replace(/^The /,'')+' in '+r[1]+' runs from '+r[2]+' to '+r[3]+'. It is '+(s.km||'...')+' km long and takes about '+(s.hrs||'...')+' hours. You can see '+(s.see||'...')+'.'}
+function readNote(){say(note())}
+function vote(i){const s=S.st[5];s.vt=i;tone([660,880],.1);render()}
+function vreason(i){const s=S.st[5];if(s.vr===null)VOTES[s.vt]++;s.vr=i;s.sc=1;GOOD();say('I would like to travel on the '+VT[s.vt][0]+' because '+VR[i]+'.');render()}
+function dtog(i){const s=S.st[6];if(s.di[i])delete s.di[i];else if(Object.keys(s.di).length<3)s.di[i]=1;else{BAD();return}s.sc=Object.keys(s.di).length;tone([660],.08);render()}
+function cl(g,i){const s=S.st[CL];if(s.chk)return;s.ans[g]=i;tone([660],.08);render()}
+function chk(){const s=S.st[CL];if(Object.keys(s.ans).length<5){tone([220],.15,'square');return}s.chk=true;const n=C.a.filter((a,g)=>s.ans[g]===a).length;tone(n>=4?[523,659,784,1047]:[392,330,262],.14,'triangle');render()}
+function stars(){const s=S.st;return s.slice(0,CL).reduce((x,y)=>x+y.sc,0)+(s[CL].chk?C.a.filter((a,g)=>s[CL].ans[g]===a).length:0)}
+function mapSvg(r){return '<svg viewBox="0 0 420 160" width="100%" style="max-width:560px;align-self:center;background:#fff;border:3px solid var(--ink);border-radius:20px" role="img" aria-label="Railway map"><path id="rt" d="M50 110 C120 20 200 150 270 80 S370 40 380 60" fill="none" stroke="#4A2A6D" stroke-width="5" stroke-dasharray="3 9" stroke-linecap="round"/><circle cx="50" cy="110" r="13" fill="#FF7EB6" stroke="#4A2A6D" stroke-width="3"/><circle cx="380" cy="60" r="13" fill="#FFC845" stroke="#4A2A6D" stroke-width="3"/><text x="50" y="146" text-anchor="middle" font-size="15" font-weight="800" fill="#4A2A6D">'+esc(r[2])+'</text><text x="380" y="40" text-anchor="middle" font-size="15" font-weight="800" fill="#4A2A6D">'+esc(r[3])+'</text><g><rect x="-17" y="-10" width="34" height="18" rx="6" fill="#FF7EB6" stroke="#4A2A6D" stroke-width="2.5"/><rect x="-10" y="-6" width="8" height="7" fill="#fff"/><rect x="2" y="-6" width="8" height="7" fill="#fff"/><circle cx="-8" cy="10" r="4" fill="#FFC845" stroke="#4A2A6D" stroke-width="2"/><circle cx="8" cy="10" r="4" fill="#FFC845" stroke="#4A2A6D" stroke-width="2"/><animateMotion dur="5s" repeatCount="indefinite"><mpath href="#rt"/></animateMotion></g></svg>'}
+function mc(a,s){
+ const q=a.q[s.i],n=a.q.length,lk=s.pk!==null,ok=lk&&s.pk===q.a;
+ if(s.done)return '<div class="card"><h2>'+a.n+'</h2><div class="big-stamp">'+s.sc+' / '+n+'</div><div class="fb" style="text-align:center">'+(s.sc===n?'Excellent! Royal work!':s.sc>=n-1?'Well done!':'Good try! Play again.')+'</div><div class="row"><button class="go alt" onclick="retry()">Play again</button>'+(S.step<CL?'<button class="go" onclick="go('+(S.step+1)+')">Next station →</button>':'')+'</div></div>';
+ const pr=q.pr.replace('___',lk?'<b>'+q.o[q.a].t+'</b>':'______');
+ return '<div class="card"><div class="meta"><span>'+a.n+' · '+a.min+' min</span><span>Question '+(s.i+1)+' / '+n+' · Jewels: '+s.sc+'</span></div><div class="q">'+pr+'</div><div class="grid">'+q.o.map((o,i)=>'<button class="o'+(lk&&i===q.a?' ok':lk&&i===s.pk?' bad':'')+'" '+(lk?'disabled':'')+' onclick="pick('+i+')"><span>'+o.t+'</span></button>').join('')+'</div><div class="fb">'+(lk?(ok?'<span class="stamp">SPARKLING!</span>':'<span class="stamp no">TRY AGAIN</span>')+'The answer is: '+q.o[q.a].t+'. '+(q.ex||''):'Choose the correct answer.')+'</div><button class="go" onclick="nxt()" '+(lk?'':'disabled')+'>'+(s.i+1===n?'Finish':'Next →')+'</button></div>'}
+function view(){
+ const a=A[S.step],s=S.st[S.step];
+ if(a.type==='mc')return mc(a,s);
+ if(a.type==='proj'){const r=s.sel!==null?RW[s.sel]:null;
+  return '<div class="card"><div class="meta"><span>'+a.n+' · '+a.min+' min</span><span>Jewels: '+s.sc+'</span></div><div class="learn"><b>Project:</b> Make a railway map! 1) Choose a famous railway. 2) Find the facts (ask your team, your teacher or search). 3) Type your notes. 4) Make your map card.</div><div class="grid">'+RW.map((x,i)=>'<button class="o'+(s.sel===i?' ok':'')+'" onclick="rail('+i+')"><span>'+x[0]+'</span></button>').join('')+'</div>'+(r?'<div class="fb">'+r[0]+' · '+r[1]+' · Continent: '+r[4]+'</div><div class="fm"><label>How long is the route (km)?<input value="'+esc(s.km)+'" oninput="inp(\'km\',this.value)" inputmode="numeric" placeholder="e.g. 290"></label><label>How long does it take (hours)?<input value="'+esc(s.hrs)+'" oninput="inp(\'hrs\',this.value)" inputmode="numeric" placeholder="e.g. 8"></label><label>What can you see or do?<input value="'+esc(s.see)+'" oninput="inp(\'see\',this.value)" placeholder="e.g. mountains and forests"></label></div><div class="row"><button class="go alt" onclick="make()">Make my map card</button></div>'+(s.made?mapSvg(r)+'<div class="box"><b>My notes:</b> '+esc(note())+'</div><div class="row"><button class="go" onclick="readNote()">▶ Listen</button></div>':''):'')+'</div>'}
+ if(a.type==='vote'){const tot=VOTES.reduce((x,y)=>x+y,0)||1;return '<div class="card"><div class="meta"><span>'+a.n+' · '+a.min+' min</span><span>Jewels: '+s.sc+'</span></div><h2>Which railway would you like to travel on most? Why?</h2><div class="row" style="justify-content:flex-start">'+VT.map((v,i)=>'<button class="bub" style="background:'+v[1]+(s.vt===i?';outline:5px solid #6FE3C1':'')+'" onclick="vote('+i+')">'+v[0]+'</button>').join('')+'</div>'+(s.vt!==null?'<div class="fb">I would like to travel on the '+VT[s.vt][0]+' because...</div><div class="grid">'+VR.map((r,i)=>'<button class="o'+(s.vr===i?' ok':'')+'" onclick="vreason('+i+')"><span>'+r+'</span></button>').join('')+'</div>':'')+'<div class="fb">Votes so far on this screen:</div>'+VT.map((v,i)=>'<div style="display:flex;gap:10px;align-items:center"><span style="width:170px;font-weight:700">'+v[0]+'</span><div class="vb" style="width:'+(VOTES[i]/tot*60+8)+'%">'+VOTES[i]+'</div></div>').join('')+'</div>'}
+ if(a.type==='diary'){const k=Object.keys(s.di);return '<div class="card"><div class="meta"><span>'+a.n+' · '+a.min+' min</span><span>Jewels: '+s.sc+'</span></div><h2>What did you learn today? Choose up to three things.</h2><div class="grid" style="grid-template-columns:1fr">'+DI.map((d,i)=>'<button class="o'+(s.di[i]?' ok':'')+'" style="justify-content:flex-start;border-radius:24px;text-align:left" onclick="dtog('+i+')"><span>'+d+'</span></button>').join('')+'</div>'+(k.length?'<div class="box"><b>My learning diary:</b><br>'+k.map(i=>'• '+DI[i]).join('<br>')+'</div>':'')+'</div>'}
+ const g=i=>'<b>'+(s.ans[i]===undefined?'______':C.o[i][s.ans[i]])+'</b>',n=C.a.filter((x,i)=>s.ans[i]===x).length;
+ return '<div class="card"><div class="meta"><span>Finishing the lesson · Project language</span><b>(5 marks)</b></div><div style="font-style:italic;font-size:18px">For each item, shade in the bubble next to the correct option.</div><div class="box">'+C.t.replace(/\{(\d)\}/g,(m,i)=>g(+i))+'</div>'+C.o.map((os,gi)=>'<div class="cz"><b>'+(gi+1)+')</b>'+os.map((w,i)=>{const sel=s.ans[gi]===i,cls=s.chk&&i===C.a[gi]?' ok':s.chk&&sel?' bad':'';return '<button class="o'+(sel?' sel':'')+cls+'" onclick="cl('+gi+','+i+')"><span class="dot"></span>'+w+'</button>'}).join('')+'</div>').join('')+(s.chk?'<div class="big-stamp">'+n+' / 5</div>':'')+'<div class="row"><span style="margin-right:auto;font-size:20px;font-weight:700">'+(s.chk?(n===5?'Excellent! You are a royal map maker!':'Review: '+C.a.map((x,i)=>s.ans[i]!==x?C.o[i][x]:null).filter(Boolean).join(', ')):'Answer all 5 items, then press Check.')+'</span><button class="go alt" onclick="chk()">Check</button><button class="go" onclick="retry()">Try again</button></div><div class="credit">Created by T.Badria Alfalahi</div></div>'}
+function render(){
+ const L=A.length-1;
+ document.getElementById('nav').innerHTML='<span>Choose your station:</span>'+A.map((a,k)=>'<button class="'+(k===S.step?'on':'')+'" onclick="go('+k+')">'+a.n+'</button>').join('');
+ document.getElementById('stars').textContent=stars();
+ document.getElementById('pl').style.left=(S.step/L*100)+'%';
+ document.getElementById('stations').innerHTML=A.map((a,k)=>'<span class="st'+(k<=S.step?' on':'')+'" style="left:'+(k/L*100)+'%"></span>').join('');
+ document.getElementById('main').innerHTML=view()}
+render();
+</script></body></html>
